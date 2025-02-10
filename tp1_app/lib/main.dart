@@ -2,48 +2,62 @@
 import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
 import 'screens/media_screen.dart';
+import 'screens/favorites_screen.dart';
 import 'screens/about_screen.dart';
+import 'models/media_item.dart';
 
 void main() {
  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
- const MyApp({super.key});
+ const MyApp({Key? key}) : super(key: key);
 
  @override
  Widget build(BuildContext context) {
    return MaterialApp(
      title: 'Media Manager',
-     theme: ThemeData(primarySwatch: Colors.blue),
-     builder: (context, child) {
-       return MediaQuery(
-         data: const MediaQueryData(
-           size: Size(360, 640),
-           devicePixelRatio: 2.0,
-         ),
-         child: child!,
-       );
-     },
+     theme: ThemeData(
+       primarySwatch: Colors.blue,
+       visualDensity: VisualDensity.adaptivePlatformDensity,
+     ),
      home: const MainScreen(),
    );
  }
 }
 
 class MainScreen extends StatefulWidget {
- const MainScreen({super.key});
+ const MainScreen({Key? key}) : super(key: key);
 
  @override
- State<MainScreen> createState() => _MainScreenState();
+ _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
  int _selectedIndex = 0;
+ final Map<String, MediaItem> _likedItemsMap = {};
 
- static const List<Widget> _screens = [
-   HomeScreen(),
-   MediaScreen(),
-   AboutScreen(),
+ void toggleLike(MediaItem item, bool isLiked) {
+   setState(() {
+     if (isLiked) {
+       _likedItemsMap[item.id] = item;
+     } else {
+       _likedItemsMap.remove(item.id);
+     }
+   });
+ }
+
+ List<Widget> get _screens => [
+   const HomeScreen(),
+   MediaScreen(
+     likedItemsMap: _likedItemsMap,
+     onLikeToggle: toggleLike,
+   ),
+   FavoritesScreen(
+     likedItems: _likedItemsMap.values.toList(),
+     onUnlike: (item) => toggleLike(item, false),
+   ),
+   const AboutScreen(),
  ];
 
  void _onItemTapped(int index) {
@@ -57,7 +71,8 @@ class _MainScreenState extends State<MainScreen> {
    return Scaffold(
      body: _screens[_selectedIndex],
      bottomNavigationBar: BottomNavigationBar(
-       items: const [
+       type: BottomNavigationBarType.fixed,
+       items: const <BottomNavigationBarItem>[
          BottomNavigationBarItem(
            icon: Icon(Icons.home),
            label: 'Home',
@@ -65,6 +80,10 @@ class _MainScreenState extends State<MainScreen> {
          BottomNavigationBarItem(
            icon: Icon(Icons.library_books),
            label: 'Media',
+         ),
+         BottomNavigationBarItem(
+           icon: Icon(Icons.favorite),
+           label: 'Favorites',
          ),
          BottomNavigationBarItem(
            icon: Icon(Icons.info),
