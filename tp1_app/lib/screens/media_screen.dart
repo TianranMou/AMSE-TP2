@@ -1,3 +1,4 @@
+// media_screen.dart
 import 'package:flutter/material.dart';
 import '../models/media_item.dart';
 
@@ -39,14 +40,14 @@ class _MediaScreenState extends State<MediaScreen> {
      title: 'The Legend of Zelda',
      type: 'Game',
      description: 'Action-adventure game series',
-     imageUrl: 'https://fs-prod-cdn.nintendo-europe.com/media/images/10_share_images/games_15/nintendo_switch_4/2x1_NSwitch_TloZTearsOfTheKingdom_Gamepage.jpg',
+     imageUrl: 'https://m.media-amazon.com/images/I/61Cr-6BDTML._AC_SL1024_.jpg',
    ),
    MediaItem(
      id: '4',
      title: 'Final Fantasy X',
      type: 'Game',
      description: 'Role-playing video game developed by Square',
-     imageUrl: 'https://upload.wikimedia.org/wikipedia/en/a/a7/Final_Fantasy_X.jpg',
+     imageUrl: 'https://m.media-amazon.com/images/I/61a4xOk5j2L._AC_SL1000_.jpg',
    ),
    MediaItem(
      id: '5',
@@ -60,7 +61,7 @@ class _MediaScreenState extends State<MediaScreen> {
      title: 'Harry Potter',
      type: 'Book',
      description: 'Fantasy novel series written by J.K. Rowling',
-     imageUrl: 'https://m.media-amazon.com/images/I/71-++HbSa0L._AC_UF1000,1000_QL80_.jpg',
+     imageUrl: 'https://m.media-amazon.com/images/I/713wL8xvf7L._SL1293_.jpg',
    ),
    MediaItem(
      id: '7',
@@ -74,7 +75,7 @@ class _MediaScreenState extends State<MediaScreen> {
      title: 'The Witcher 3',
      type: 'Game',
      description: 'Action role-playing game developed by CD Projekt Red',
-     imageUrl: 'https://image.api.playstation.com/vulcan/img/rnd/202211/0711/Fki2Ul4MQLhHECZAcNwEdN5F.jpg',
+     imageUrl: 'https://m.media-amazon.com/images/I/71zHGjrLnzL._AC_SL1500_.jpg',
    ),
    MediaItem(
      id: '9',
@@ -237,3 +238,4 @@ class _MediaScreenState extends State<MediaScreen> {
    );
  }
 }
+
