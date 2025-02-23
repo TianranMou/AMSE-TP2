@@ -1,8 +1,7 @@
-// favorites_screen.dart
 import 'package:flutter/material.dart';
 import '../models/media_item.dart';
 
-class FavoritesScreen extends StatelessWidget {
+class FavoritesScreen extends StatefulWidget {
  final List<MediaItem> likedItems;
  final Function(MediaItem) onUnlike;
  
@@ -11,6 +10,28 @@ class FavoritesScreen extends StatelessWidget {
    required this.likedItems,
    required this.onUnlike,
  }) : super(key: key);
+
+ @override
+ State<FavoritesScreen> createState() => _FavoritesScreenState();
+}
+
+class _FavoritesScreenState extends State<FavoritesScreen> {
+ final TextEditingController _searchController = TextEditingController();
+ String _searchQuery = '';
+
+ @override
+ void dispose() {
+   _searchController.dispose();
+   super.dispose();
+ }
+
+ List<MediaItem> _getFilteredItems(List<MediaItem> items) {
+   if (_searchQuery.isEmpty) return items;
+   return items.where((item) => 
+     item.title.toLowerCase().contains(_searchQuery.toLowerCase()) || 
+     item.type.toLowerCase().contains(_searchQuery.toLowerCase())
+   ).toList();
+ }
 
  @override
  Widget build(BuildContext context) {
@@ -29,12 +50,48 @@ class FavoritesScreen extends StatelessWidget {
            ],
          ),
        ),
-       body: TabBarView(
+       body: Column(
          children: [
-           _buildList(likedItems),
-           _buildList(likedItems.where((item) => item.type == 'Book').toList()),
-           _buildList(likedItems.where((item) => item.type == 'TV Series').toList()),
-           _buildList(likedItems.where((item) => item.type == 'Game').toList()),
+           Padding(
+             padding: const EdgeInsets.all(8.0),
+             child: TextField(
+               controller: _searchController,
+               decoration: InputDecoration(
+                 labelText: 'Search',
+                 hintText: 'Search title or type...',
+                 prefixIcon: const Icon(Icons.search),
+                 border: OutlineInputBorder(
+                   borderRadius: BorderRadius.circular(10),
+                 ),
+                 suffixIcon: _searchQuery.isNotEmpty 
+                   ? IconButton(
+                       icon: const Icon(Icons.clear),
+                       onPressed: () {
+                         _searchController.clear();
+                         setState(() {
+                           _searchQuery = '';
+                         });
+                       },
+                     )
+                   : null,
+               ),
+               onChanged: (value) {
+                 setState(() {
+                   _searchQuery = value;
+                 });
+               },
+             ),
+           ),
+           Expanded(
+             child: TabBarView(
+               children: [
+                 _buildList(_getFilteredItems(widget.likedItems)),
+                 _buildList(_getFilteredItems(widget.likedItems.where((item) => item.type == 'Book').toList())),
+                 _buildList(_getFilteredItems(widget.likedItems.where((item) => item.type == 'TV Series').toList())),
+                 _buildList(_getFilteredItems(widget.likedItems.where((item) => item.type == 'Game').toList())),
+               ],
+             ),
+           ),
          ],
        ),
      ),
@@ -67,7 +124,7 @@ class FavoritesScreen extends StatelessWidget {
                  subtitle: Text(item.type),
                  trailing: IconButton(
                    icon: const Icon(Icons.favorite, color: Colors.red),
-                   onPressed: () => onUnlike(item),
+                   onPressed: () => widget.onUnlike(item),
                  ),
                  onTap: () {
                    showDialog(
