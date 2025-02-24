@@ -6,6 +6,7 @@ import 'moving_tiles_page.dart';
 import 'simple_color_swap.dart';
 import 'grid_view_example_page.dart';
 import 'image_grid_page.dart';
+import 'taquin_page.dart';
 
 class MenuPage extends StatelessWidget {
   const MenuPage({super.key});
@@ -103,6 +104,16 @@ class MenuPage extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) => const MovingTilesPage(gridSize: 4),
+              ),
+            ),
+          ),
+          ExerciseCard(
+            title: 'Exercise 7',
+            subtitle: 'Jeu de Taquin',
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const TaquinPage(),
               ),
             ),
           ),
