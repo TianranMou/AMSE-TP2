@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'image_transform_page.dart';
 import 'display_tile_page.dart';
 import 'configurable_grid_page.dart';
+import 'moving_tiles_page.dart';
+import 'simple_color_swap.dart';
+import 'grid_view_example_page.dart';
+import 'image_grid_page.dart';
 
 class MenuPage extends StatelessWidget {
   const MenuPage({super.key});
@@ -17,7 +21,7 @@ class MenuPage extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         children: [
           ExerciseCard(
-            title: 'Exercise 2',
+            title: 'Exercise 2a',
             subtitle: 'Rotate&Scale image',
             onTap: () => Navigator.push(
               context,
@@ -43,12 +47,32 @@ class MenuPage extends StatelessWidget {
             ),
           ),
           ExerciseCard(
-            title: 'Exercise 4a',
+            title: 'Exercise 4',
             subtitle: 'Display a Tile',
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const DisplayTileWidget(),
+              ),
+            ),
+          ),
+          ExerciseCard(
+            title: 'Exercise 5a',  
+            subtitle: 'Grid of Colored Boxes',
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const GridViewExamplePage(),
+              ),
+            ),
+          ),
+           ExerciseCard(
+            title: 'Exercise 5b',  
+            subtitle: 'Fixed Image Grid',
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ImageGridPage(),
               ),
             ),
           ),
@@ -59,6 +83,26 @@ class MenuPage extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) => const ConfigurableGridPage(),
+              ),
+            ),
+          ),
+          ExerciseCard(
+            title: 'Exercise 6a',
+            subtitle: 'Simple Color Swap',
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const SimpleColorSwap(),
+              ),
+            ),
+          ),
+          ExerciseCard(
+            title: 'Exercise 6b',
+            subtitle: 'Moving Tiles in Grid',
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const MovingTilesPage(gridSize: 4),
               ),
             ),
           ),

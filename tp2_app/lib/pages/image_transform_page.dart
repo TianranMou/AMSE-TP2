@@ -45,6 +45,15 @@ class _ImageTransformPageState extends State<ImageTransformPage> {
     }
   }
 
+  // 新增：接收动画值的回调
+  void updateAnimationValues(double newRotateX, double newRotateZ, double newScale) {
+    setState(() {
+      rotateX = newRotateX;
+      rotateZ = newRotateZ;
+      scale = newScale;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,6 +75,8 @@ class _ImageTransformPageState extends State<ImageTransformPage> {
                     scale: scale,
                     mirror: mirror,
                     isAnimating: isAnimating && widget.animated,
+                    // 传递动画值更新回调
+                    onAnimationValueChanged: isAnimating ? updateAnimationValues : null,
                   ),
                   const SizedBox(height: 20),
                   ImageTransformControls(
@@ -73,10 +84,10 @@ class _ImageTransformPageState extends State<ImageTransformPage> {
                     rotateZ: rotateZ,
                     scale: scale,
                     mirror: mirror,
-                    onRotateXChanged: onRotateXChanged,
-                    onRotateZChanged: onRotateZChanged,
-                    onScaleChanged: onScaleChanged,
-                    onMirrorChanged: onMirrorChanged,
+                    onRotateXChanged: isAnimating ? null : onRotateXChanged, // 动画中禁用滑块交互
+                    onRotateZChanged: isAnimating ? null : onRotateZChanged,
+                    onScaleChanged: isAnimating ? null : onScaleChanged,
+                    onMirrorChanged: onMirrorChanged, // 镜像控制不受动画影响
                   ),
                 ],
               ),
