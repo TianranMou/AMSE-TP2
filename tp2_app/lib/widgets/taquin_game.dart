@@ -244,7 +244,7 @@ class _TaquinGameState extends State<TaquinGame> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: const Text(
-                'Congratulations, you won!',
+                'Congratulations, you win!',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
