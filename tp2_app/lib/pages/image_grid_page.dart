@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ImageGridPage extends StatelessWidget {
   const ImageGridPage({super.key});
   
-  final String imageUrl = 'https://m.media-amazon.com/images/I/51Y52SEf7tL._SX300_SY300_QL70_FMwebp_.jpg';
+  final String imageUrl = 'https://picsum.photos/512';
   
   @override
   Widget build(BuildContext context) {

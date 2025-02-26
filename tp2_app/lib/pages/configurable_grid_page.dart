@@ -9,7 +9,7 @@ class ConfigurableGridPage extends StatefulWidget {
 
 class _ConfigurableGridPageState extends State<ConfigurableGridPage> {
   double _gridSize = 3;
-  final String imageUrl = 'https://m.media-amazon.com/images/I/51Y52SEf7tL._SX300_SY300_QL70_FMwebp_.jpg'; // 可以是任意尺寸的图片
+  final String imageUrl = 'https://picsum.photos/512'; // 可以是任意尺寸的图片
 
   @override
   Widget build(BuildContext context) {

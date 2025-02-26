@@ -29,7 +29,7 @@ class DisplayTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Tile tile = Tile(
-      imageURL: 'https://m.media-amazon.com/images/I/61a4xOk5j2L.__AC_SX300_SY300_QL70_ML2_.jpg',
+      imageURL: 'https://picsum.photos/512',
       alignment: const Alignment(0, 0),
     );
 
@@ -52,7 +52,7 @@ class DisplayTileWidget extends StatelessWidget {
             Container(
               height: 200,
               child: Image.network(
-                'https://m.media-amazon.com/images/I/61a4xOk5j2L.__AC_SX300_SY300_QL70_ML2_.jpg',
+                'https://picsum.photos/512',
                 fit: BoxFit.cover,
               ),
             ),

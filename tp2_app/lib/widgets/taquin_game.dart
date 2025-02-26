@@ -23,7 +23,7 @@ class _TaquinGameState extends State<TaquinGame> {
   final List<List<int>> _moveHistory = []; // Move history for undo
   int? _selectedTileIndex; // Track the first selected tile for swapping
   
-  String _imageUrl = 'https://m.media-amazon.com/images/I/61a4xOk5j2L.__AC_SX300_SY300_QL70_ML2_.jpg'; // Default image URL
+  String _imageUrl = 'https://picsum.photos/512'; // Default image URL
   
   bool get isPlaying => _gameState == GameState.playing;
   bool get hasWon => _gameState == GameState.won;
@@ -389,7 +389,7 @@ class _TaquinGameState extends State<TaquinGame> {
               ElevatedButton.icon(
                 icon: const Icon(Icons.image),
                 label: const Text('Change Image'),
-                onPressed: _showImageSourceDialog,
+                onPressed: _loadRandomImage,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
                   foregroundColor: Colors.white,
@@ -421,52 +421,18 @@ class _TaquinGameState extends State<TaquinGame> {
     );
   }
 
-  void _showImageSourceDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Select Image Source'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              title: const Text('Image 1'),
-              onTap: () {
-                _changeImageUrl('https://m.media-amazon.com/images/I/61a4xOk5j2L.__AC_SX300_SY300_QL70_ML2_.jpg');
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Text('Image 2'),
-              onTap: () {
-                _changeImageUrl('https://m.media-amazon.com/images/I/51Y52SEf7tL._SX300_SY300_QL70_FMwebp_.jpg');
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Text('Random Image'),
-              onTap: () {
-                // Use a random image service
-                _changeImageUrl('https://picsum.photos/512');
-                Navigator.pop(context);
-              },
-            ),
-            // Camera option (requires the image_picker dependency)
-            /*
-            ListTile(
-              title: const Text('Camera'),
-              onTap: () async {
-                Navigator.pop(context);
-                final picker = ImagePicker();
-                final pickedFile = await picker.pickImage(source: ImageSource.camera);
-                if (pickedFile != null) {
-                  // Process camera photo
-                }
-              },
-            ),
-            */
-          ],
-        ),
+  // Load a random image from picsum.photos
+  void _loadRandomImage() {
+    setState(() {
+      // Add a random parameter to force reload a new image
+      _imageUrl = 'https://picsum.photos/512?random=${DateTime.now().millisecondsSinceEpoch}';
+    });
+    
+    // Show a snackbar to notify the user
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('New random image loaded!'),
+        duration: Duration(seconds: 1),
       ),
     );
   }

@@ -122,7 +122,7 @@ class _AnimatedImageState extends State<AnimatedImage> {
           ..scale(widget.mirror ? -scale : scale, scale),
         alignment: Alignment.center,
         child: Image.network(
-          'https://m.media-amazon.com/images/I/61a4xOk5j2L.__AC_SX300_SY300_QL70_ML2_.jpg',
+          'https://picsum.photos/512',
           fit: BoxFit.contain,
           loadingBuilder: (context, child, loadingProgress) {
             if (loadingProgress == null) return child;
