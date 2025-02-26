@@ -405,10 +405,10 @@ class _TaquinGameState extends State<TaquinGame> {
               DropdownButton<int>(
                 value: _shuffleMoves,
                 items: const [
-                  DropdownMenuItem(value: 10, child: Text('Easy (10 moves)')),
-                  DropdownMenuItem(value: 20, child: Text('Medium (20 moves)')),
-                  DropdownMenuItem(value: 50, child: Text('Hard (50 moves)')),
-                  DropdownMenuItem(value: 100, child: Text('Expert (100 moves)')),
+                  DropdownMenuItem(value: 10, child: Text('Easy')),
+                  DropdownMenuItem(value: 20, child: Text('Medium')),
+                  DropdownMenuItem(value: 50, child: Text('Hard')),
+                  DropdownMenuItem(value: 100, child: Text('Expert')),
                 ],
                 onChanged: (value) {
                   if (value != null) _changeDifficulty(value);
