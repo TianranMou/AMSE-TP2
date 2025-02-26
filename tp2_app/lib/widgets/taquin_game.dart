@@ -212,7 +212,7 @@ class _TaquinGameState extends State<TaquinGame> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Taquin v1'),
+        title: const Text('Taquin Board'),
         backgroundColor: Colors.blue,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -259,34 +259,66 @@ class _TaquinGameState extends State<TaquinGame> {
   }
   
   Widget _buildGameBoard() {
-    return GridView.builder(
-      padding: EdgeInsets.zero,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: _gridSize,
-      ),
-      itemCount: _gridSize * _gridSize,
-      itemBuilder: (context, index) {
-        // Get the tile value
-        final tileIndex = _tiles[index];
-        final isSelected = index == _selectedTileIndex;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Calculate the size of each tile based on available space
+        final tileSize = constraints.maxWidth / _gridSize;
         
-        return GestureDetector(
-          onTap: () => _handleTileTap(index),
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: isSelected ? Colors.blue : Colors.white, 
-                width: isSelected ? 3 : 1
+        return Stack(
+          children: [
+            // First place the full image as background (for win state)
+            if (hasWon)
+              Image.network(
+                _imageUrl,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return const Center(child: CircularProgressIndicator());
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  return const Center(child: Icon(Icons.error));
+                },
               ),
-            ),
-            child: TaquinTile(
-              imageUrl: _imageUrl,
-              gridSize: _gridSize,
-              tileIndex: tileIndex,
-              isSelected: isSelected,
-            ),
-          ),
+            
+            // Then build the tile grid on top
+            if (!hasWon)
+              GridView.builder(
+                padding: EdgeInsets.zero,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: _gridSize,
+                  crossAxisSpacing: 1,
+                  mainAxisSpacing: 1,
+                ),
+                itemCount: _gridSize * _gridSize,
+                itemBuilder: (context, index) {
+                  // Get the tile value
+                  final tileIndex = _tiles[index];
+                  final isSelected = index == _selectedTileIndex;
+                  
+                  return GestureDetector(
+                    onTap: () => _handleTileTap(index),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: isSelected ? Colors.blue : Colors.white, 
+                          width: isSelected ? 3 : 1
+                        ),
+                      ),
+                      child: TaquinTile(
+                        imageUrl: _imageUrl,
+                        gridSize: _gridSize,
+                        tileIndex: tileIndex,
+                        originalIndex: index,
+                        tileSize: tileSize,
+                        isSelected: isSelected,
+                        hasWon: hasWon,
+                      ),
+                    ),
+                  );
+                },
+              ),
+          ],
         );
       },
     );
@@ -444,37 +476,49 @@ class TaquinTile extends StatelessWidget {
   final String imageUrl;
   final int gridSize;
   final int tileIndex;
+  final int originalIndex;
+  final double tileSize;
   final bool isSelected;
+  final bool hasWon;
 
   const TaquinTile({
     Key? key,
     required this.imageUrl,
     required this.gridSize,
     required this.tileIndex,
+    required this.originalIndex,
+    required this.tileSize,
     required this.isSelected,
+    required this.hasWon,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // Calculate the tile's row and column in the original image
-    final row = tileIndex ~/ gridSize;
-    final col = tileIndex % gridSize;
+    // If game is won, don't show tiles
+    if (hasWon) {
+      return Container(color: Colors.transparent);
+    }
     
-    return Stack(
-      children: [
-        // Cropped image part
-        ClipRect(
-          child: Align(
-            alignment: FractionalOffset(
-              col / (gridSize - 1),
-              row / (gridSize - 1),
-            ),
-            widthFactor: 1 / gridSize,
-            heightFactor: 1 / gridSize,
+    // Calculate the original position of this tile in the grid
+    final int sourceRow = tileIndex ~/ gridSize;
+    final int sourceCol = tileIndex % gridSize;
+    
+    return ClipRect(
+      child: SizedBox(
+        width: tileSize,
+        height: tileSize,
+        child: FittedBox(
+          fit: BoxFit.none,
+          clipBehavior: Clip.hardEdge,
+          alignment: FractionalOffset(
+            sourceCol / (gridSize - 1),
+            sourceRow / (gridSize - 1),
+          ),
+          child: SizedBox(
+            width: tileSize * gridSize,
+            height: tileSize * gridSize,
             child: Image.network(
               imageUrl,
-              width: gridSize * 100.0,
-              height: gridSize * 100.0,
               fit: BoxFit.cover,
               loadingBuilder: (context, child, loadingProgress) {
                 if (loadingProgress == null) return child;
@@ -486,25 +530,7 @@ class TaquinTile extends StatelessWidget {
             ),
           ),
         ),
-        // Tile number
-        Center(
-          child: Text(
-            '$tileIndex',
-            style: TextStyle(
-              color: Colors.red,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              shadows: [
-                Shadow(
-                  blurRadius: 2.0,
-                  color: Colors.white,
-                  offset: Offset(1.0, 1.0),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
