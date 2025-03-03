@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../widgets/taquin_game.dart';
 
 class TaquinPage extends StatelessWidget {
-  const TaquinPage({Key? key}) : super(key: key);
+  const TaquinPage({super.key});
 
   @override
   Widget build(BuildContext context) {

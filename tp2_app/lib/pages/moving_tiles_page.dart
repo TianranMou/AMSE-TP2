@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-// 定义 Tile 模型
 class Tile {
   String id;
   Color color;
@@ -79,7 +78,7 @@ class _MovingTilesPageState extends State<MovingTilesPage> {
     if (!_isAdjacent(index) || emptyIndex == null) return;
 
     setState(() {
-      // 交换位置
+      // echange la place
       final temp = tiles[index];
       tiles[index] = null;
       tiles[emptyIndex!] = temp;

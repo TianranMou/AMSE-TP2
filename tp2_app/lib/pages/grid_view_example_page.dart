@@ -4,17 +4,16 @@ import 'package:flutter/material.dart';
 class GridViewExamplePage extends StatelessWidget {
   const GridViewExamplePage({super.key});
 
-  // 定义颜色列表
   final List<Color> tileColors = const [
-    Color(0xFF7FB3D5), // 浅蓝色 Tile 1
-    Color(0xFF82E0AA), // 浅绿色 Tile 2
-    Color(0xFF52BE80), // 绿色 Tile 3
-    Color(0xFFCD6155), // 玫红色 Tile 4
-    Color(0xFF6C3483), // 紫色 Tile 5
-    Color(0xFF0000FF), // 蓝色 Tile 6
-    Color(0xFFA93226), // 深红色 Tile 7
-    Color(0xFF82E0AA), // 浅绿色 Tile 8
-    Color(0xFF3498DB), // 蓝色 Tile 9
+    Color(0xFF7FB3D5),
+    Color(0xFF82E0AA),
+    Color(0xFF52BE80),
+    Color(0xFFCD6155),
+    Color(0xFF6C3483),
+    Color(0xFF0000FF),
+    Color(0xFFA93226),
+    Color(0xFF82E0AA),
+    Color(0xFF3498DB),
   ];
 
   @override

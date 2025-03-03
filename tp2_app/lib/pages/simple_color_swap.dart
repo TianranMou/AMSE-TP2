@@ -7,7 +7,7 @@ class Tile {
 
   Tile(this.color);
 
-  // 创建随机颜色的 Tile
+  // create random color Tile
   Tile.randomColor()
       : color = Color.fromARGB(
           255,
@@ -21,9 +21,9 @@ class TileWidget extends StatelessWidget {
   final Tile tile;
 
   const TileWidget({
-    Key? key,
+    super.key,
     required this.tile,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
