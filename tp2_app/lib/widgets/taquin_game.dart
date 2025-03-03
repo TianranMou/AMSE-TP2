@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
-import 'dart:async';
 
 // Import image picker plugin if you want to implement the optional photo selection feature
 // import 'package:image_picker/image_picker.dart';
@@ -22,18 +21,18 @@ class _TaquinGameState extends State<TaquinGame> {
   List<int> _tiles = [];
   final List<List<int>> _moveHistory = []; // Move history for undo
   int? _selectedTileIndex; // Track the first selected tile for swapping
-  
+
   String _imageUrl = 'https://picsum.photos/512'; // Default image URL
-  
+
   bool get isPlaying => _gameState == GameState.playing;
   bool get hasWon => _gameState == GameState.won;
-  
+
   @override
   void initState() {
     super.initState();
     _initializeGame();
   }
-  
+
   void _initializeGame() {
     // Initialize tiles in order (0, 1, 2, ..., n²-1)
     _tiles = List.generate(_gridSize * _gridSize, (index) => index);
@@ -42,7 +41,7 @@ class _TaquinGameState extends State<TaquinGame> {
     _moveHistory.clear();
     _selectedTileIndex = null;
   }
-  
+
   // Check if the player has won
   bool _checkWin() {
     for (int i = 0; i < _tiles.length; i++) {
@@ -52,24 +51,24 @@ class _TaquinGameState extends State<TaquinGame> {
     }
     return true;
   }
-  
+
   // Check if two tiles are adjacent
   bool _areAdjacent(int firstIndex, int secondIndex) {
     int firstRow = firstIndex ~/ _gridSize;
     int firstCol = firstIndex % _gridSize;
     int secondRow = secondIndex ~/ _gridSize;
     int secondCol = secondIndex % _gridSize;
-    
+
     // Adjacent if they are in the same row and columns differ by 1,
     // or in the same column and rows differ by 1
     return (firstRow == secondRow && (firstCol - secondCol).abs() == 1) ||
-           (firstCol == secondCol && (firstRow - secondRow).abs() == 1);
+        (firstCol == secondCol && (firstRow - secondRow).abs() == 1);
   }
-  
+
   // Swap two tiles
   void _swapTiles(int firstIndex, int secondIndex) {
     if (_gameState == GameState.won) return;
-    
+
     // Check if tiles are adjacent
     if (!_areAdjacent(firstIndex, secondIndex)) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -83,35 +82,35 @@ class _TaquinGameState extends State<TaquinGame> {
       });
       return;
     }
-    
+
     setState(() {
       if (_gameState == GameState.initial) {
         _gameState = GameState.playing;
       }
-      
+
       // Record the move for undo
       _moveHistory.add([firstIndex, secondIndex]);
-      
+
       // Swap the tiles
       final temp = _tiles[firstIndex];
       _tiles[firstIndex] = _tiles[secondIndex];
       _tiles[secondIndex] = temp;
-      
+
       // Increment move counter
       _moves++;
-      
+
       // Check if the player has won
       if (_checkWin()) {
         _gameState = GameState.won;
       }
     });
   }
-  
+
   // Handle tile tap
   // Handle tile tap
   void _handleTileTap(int index) {
     if (_gameState == GameState.won) return;
-    
+
     if (_selectedTileIndex == null) {
       // First tile selected
       setState(() {
@@ -125,56 +124,56 @@ class _TaquinGameState extends State<TaquinGame> {
       });
     }
   }
-  
+
   // Undo the last move
   void _undoLastMove() {
     if (_moveHistory.isEmpty) return;
-    
+
     setState(() {
       // Get the last move
       final lastMove = _moveHistory.removeLast();
       final firstIndex = lastMove[0];
       final secondIndex = lastMove[1];
-      
+
       // Swap the tiles back
       final temp = _tiles[firstIndex];
       _tiles[firstIndex] = _tiles[secondIndex];
       _tiles[secondIndex] = temp;
-      
+
       // Decrement move counter
       _moves--;
-      
+
       // If we're back to the initial state
       if (_moveHistory.isEmpty && _moves == 0) {
         _gameState = GameState.initial;
       }
-      
+
       // Clear any selection
       _selectedTileIndex = null;
     });
   }
-  
+
   // Shuffle the tiles
   void _shuffleTiles() {
     _initializeGame();
-    
+
     final random = math.Random();
-    
+
     // Perform random valid swaps
     for (int i = 0; i < _shuffleMoves; i++) {
       final firstIndex = random.nextInt(_tiles.length);
       int secondIndex;
-      
+
       do {
         secondIndex = random.nextInt(_tiles.length);
       } while (secondIndex == firstIndex);
-      
+
       // Swap the tiles
       final temp = _tiles[firstIndex];
       _tiles[firstIndex] = _tiles[secondIndex];
       _tiles[secondIndex] = temp;
     }
-    
+
     // Reset game state
     setState(() {
       _gameState = GameState.playing;
@@ -193,21 +192,21 @@ class _TaquinGameState extends State<TaquinGame> {
       });
     }
   }
-  
+
   // Change difficulty (shuffle moves)
   void _changeDifficulty(int moves) {
     setState(() {
       _shuffleMoves = moves;
     });
   }
-  
-  // Change the image URL
+
+  /* Change the image URL
   void _changeImageUrl(String url) {
     setState(() {
       _imageUrl = url;
     });
-  }
-  
+  }*/
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -257,13 +256,13 @@ class _TaquinGameState extends State<TaquinGame> {
       ),
     );
   }
-  
+
   Widget _buildGameBoard() {
     return LayoutBuilder(
       builder: (context, constraints) {
         // Calculate the size of each tile based on available space
         final tileSize = constraints.maxWidth / _gridSize;
-        
+
         return Stack(
           children: [
             // First place the full image as background (for win state)
@@ -279,7 +278,7 @@ class _TaquinGameState extends State<TaquinGame> {
                   return const Center(child: Icon(Icons.error));
                 },
               ),
-            
+
             // Then build the tile grid on top
             if (!hasWon)
               GridView.builder(
@@ -295,15 +294,14 @@ class _TaquinGameState extends State<TaquinGame> {
                   // Get the tile value
                   final tileIndex = _tiles[index];
                   final isSelected = index == _selectedTileIndex;
-                  
+
                   return GestureDetector(
                     onTap: () => _handleTileTap(index),
                     child: Container(
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: isSelected ? Colors.blue : Colors.white, 
-                          width: isSelected ? 3 : 1
-                        ),
+                            color: isSelected ? Colors.blue : Colors.white,
+                            width: isSelected ? 3 : 1),
                       ),
                       child: TaquinTile(
                         imageUrl: _imageUrl,
@@ -323,7 +321,7 @@ class _TaquinGameState extends State<TaquinGame> {
       },
     );
   }
-  
+
   Widget _buildControls() {
     return Padding(
       padding: const EdgeInsets.all(20.0),
@@ -333,7 +331,8 @@ class _TaquinGameState extends State<TaquinGame> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Moves: $_moves', style: const TextStyle(fontSize: 16)),
-              Text('Grid Size: $_gridSize x $_gridSize', style: const TextStyle(fontSize: 16)),
+              Text('Grid Size: $_gridSize x $_gridSize',
+                  style: const TextStyle(fontSize: 16)),
             ],
           ),
           const SizedBox(height: 10),
@@ -341,7 +340,8 @@ class _TaquinGameState extends State<TaquinGame> {
             children: [
               IconButton(
                 icon: const Icon(Icons.remove),
-                onPressed: _gridSize > 2 ? () => _changeGridSize(_gridSize - 1) : null,
+                onPressed:
+                    _gridSize > 2 ? () => _changeGridSize(_gridSize - 1) : null,
               ),
               Expanded(
                 child: Slider(
@@ -355,7 +355,8 @@ class _TaquinGameState extends State<TaquinGame> {
               ),
               IconButton(
                 icon: const Icon(Icons.add),
-                onPressed: _gridSize < 6 ? () => _changeGridSize(_gridSize + 1) : null,
+                onPressed:
+                    _gridSize < 6 ? () => _changeGridSize(_gridSize + 1) : null,
               ),
             ],
           ),
@@ -425,9 +426,10 @@ class _TaquinGameState extends State<TaquinGame> {
   void _loadRandomImage() {
     setState(() {
       // Add a random parameter to force reload a new image
-      _imageUrl = 'https://picsum.photos/512?random=${DateTime.now().millisecondsSinceEpoch}';
+      _imageUrl =
+          'https://picsum.photos/512?random=${DateTime.now().millisecondsSinceEpoch}';
     });
-    
+
     // Show a snackbar to notify the user
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
@@ -464,11 +466,11 @@ class TaquinTile extends StatelessWidget {
     if (hasWon) {
       return Container(color: Colors.transparent);
     }
-    
+
     // Calculate the original position of this tile in the grid
     final int sourceRow = tileIndex ~/ gridSize;
     final int sourceCol = tileIndex % gridSize;
-    
+
     return ClipRect(
       child: SizedBox(
         width: tileSize,

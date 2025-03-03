@@ -1,14 +1,15 @@
+//ex2a，b
 import 'package:flutter/material.dart';
 import '../widgets/animated_image.dart';
 import '../widgets/image_transform_controls.dart';
 
 class ImageTransformPage extends StatefulWidget {
   const ImageTransformPage({
-    super.key, 
+    super.key,
     required this.title,
     required this.animated,
   });
-  
+
   final String title;
   final bool animated;
 
@@ -46,7 +47,8 @@ class _ImageTransformPageState extends State<ImageTransformPage> {
   }
 
   // 新增：接收动画值的回调
-  void updateAnimationValues(double newRotateX, double newRotateZ, double newScale) {
+  void updateAnimationValues(
+      double newRotateX, double newRotateZ, double newScale) {
     setState(() {
       rotateX = newRotateX;
       rotateZ = newRotateZ;
@@ -76,7 +78,8 @@ class _ImageTransformPageState extends State<ImageTransformPage> {
                     mirror: mirror,
                     isAnimating: isAnimating && widget.animated,
                     // 传递动画值更新回调
-                    onAnimationValueChanged: isAnimating ? updateAnimationValues : null,
+                    onAnimationValueChanged:
+                        isAnimating ? updateAnimationValues : null,
                   ),
                   const SizedBox(height: 20),
                   ImageTransformControls(
@@ -84,7 +87,8 @@ class _ImageTransformPageState extends State<ImageTransformPage> {
                     rotateZ: rotateZ,
                     scale: scale,
                     mirror: mirror,
-                    onRotateXChanged: isAnimating ? null : onRotateXChanged, // 动画中禁用滑块交互
+                    onRotateXChanged:
+                        isAnimating ? null : onRotateXChanged, // 动画中禁用滑块交互
                     onRotateZChanged: isAnimating ? null : onRotateZChanged,
                     onScaleChanged: isAnimating ? null : onScaleChanged,
                     onMirrorChanged: onMirrorChanged, // 镜像控制不受动画影响
@@ -95,10 +99,12 @@ class _ImageTransformPageState extends State<ImageTransformPage> {
           );
         },
       ),
-      floatingActionButton: widget.animated ? FloatingActionButton(
-        onPressed: toggleAnimation,
-        child: Icon(isAnimating ? Icons.pause : Icons.play_arrow),
-      ) : null,
+      floatingActionButton: widget.animated
+          ? FloatingActionButton(
+              onPressed: toggleAnimation,
+              child: Icon(isAnimating ? Icons.pause : Icons.play_arrow),
+            )
+          : null,
     );
   }
 }

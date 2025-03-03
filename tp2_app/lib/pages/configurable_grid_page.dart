@@ -1,3 +1,5 @@
+//exo 5c
+
 import 'package:flutter/material.dart';
 
 class ConfigurableGridPage extends StatefulWidget {
@@ -26,12 +28,12 @@ class _ConfigurableGridPageState extends State<ConfigurableGridPage> {
             child: Center(
               child: LayoutBuilder(
                 builder: (context, constraints) {
-                  double minSize = constraints.maxWidth < constraints.maxHeight 
-                      ? constraints.maxWidth 
+                  double minSize = constraints.maxWidth < constraints.maxHeight
+                      ? constraints.maxWidth
                       : constraints.maxHeight;
-                  
+
                   final tileSize = (minSize - 40) / size; // 计算单个瓦片的大小
-                  
+
                   return Container(
                     margin: const EdgeInsets.all(20.0),
                     width: minSize - 40,
@@ -52,7 +54,7 @@ class _ConfigurableGridPageState extends State<ConfigurableGridPage> {
                         // 计算当前瓦片在网格中的行列位置
                         final row = index ~/ size;
                         final col = index % size;
-                        
+
                         return Container(
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.white, width: 0.5),
@@ -74,12 +76,15 @@ class _ConfigurableGridPageState extends State<ConfigurableGridPage> {
                                   child: Image.network(
                                     imageUrl,
                                     fit: BoxFit.cover,
-                                    loadingBuilder: (context, child, loadingProgress) {
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
                                       if (loadingProgress == null) return child;
-                                      return const Center(child: CircularProgressIndicator());
+                                      return const Center(
+                                          child: CircularProgressIndicator());
                                     },
                                     errorBuilder: (context, error, stackTrace) {
-                                      return const Center(child: Icon(Icons.error));
+                                      return const Center(
+                                          child: Icon(Icons.error));
                                     },
                                   ),
                                 ),

@@ -1,3 +1,4 @@
+//exo 6b
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
@@ -6,9 +7,9 @@ class Tile {
   String id;
   Color color;
   int initialPosition;
-  
+
   Tile(this.id, this.color, this.initialPosition);
-  
+
   factory Tile.withRandomColor(int index) {
     return Tile(
       'Tile $index',
@@ -25,7 +26,7 @@ class Tile {
 
 class MovingTilesPage extends StatefulWidget {
   final int gridSize;
-  
+
   const MovingTilesPage({
     Key? key,
     this.gridSize = 4,
@@ -57,14 +58,14 @@ class _MovingTilesPageState extends State<MovingTilesPage> {
 
   bool _isAdjacent(int index) {
     if (emptyIndex == null) return false;
-    
+
     int emptyRow = emptyIndex! ~/ widget.gridSize;
     int emptyCol = emptyIndex! % widget.gridSize;
     int row = index ~/ widget.gridSize;
     int col = index % widget.gridSize;
-    
+
     return (row == emptyRow && (col - emptyCol).abs() == 1) ||
-           (col == emptyCol && (row - emptyRow).abs() == 1);
+        (col == emptyCol && (row - emptyRow).abs() == 1);
   }
 
   void _selectEmptyTile(int index) {
@@ -76,7 +77,7 @@ class _MovingTilesPageState extends State<MovingTilesPage> {
 
   void _moveTile(int index) {
     if (!_isAdjacent(index) || emptyIndex == null) return;
-    
+
     setState(() {
       // 交换位置
       final temp = tiles[index];
@@ -114,7 +115,7 @@ class _MovingTilesPageState extends State<MovingTilesPage> {
                 itemBuilder: (context, index) {
                   bool isEmpty = index == emptyIndex;
                   bool isAdjacent = _isAdjacent(index);
-                  
+
                   if (isEmpty) {
                     return Container(
                       color: Colors.white,
@@ -129,9 +130,9 @@ class _MovingTilesPageState extends State<MovingTilesPage> {
                       ),
                     );
                   }
-                  
+
                   final tile = tiles[index]!;
-                  
+
                   return GestureDetector(
                     onTap: () {
                       if (!initialized) {

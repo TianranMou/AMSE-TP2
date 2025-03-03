@@ -1,3 +1,4 @@
+// exo 6a
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
@@ -7,12 +8,13 @@ class Tile {
   Tile(this.color);
 
   // 创建随机颜色的 Tile
-  Tile.randomColor() : color = Color.fromARGB(
-    255,
-    math.Random().nextInt(200) + 55,
-    math.Random().nextInt(200) + 55,
-    math.Random().nextInt(200) + 55,
-  );
+  Tile.randomColor()
+      : color = Color.fromARGB(
+          255,
+          math.Random().nextInt(200) + 55,
+          math.Random().nextInt(200) + 55,
+          math.Random().nextInt(200) + 55,
+        );
 }
 
 class TileWidget extends StatelessWidget {
