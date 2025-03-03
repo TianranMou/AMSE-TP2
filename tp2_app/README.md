@@ -7,8 +7,8 @@ Ce projet consiste à réaliser un jeu de Taquin en utilisant Flutter. Avant d�
 
 Auteurs：
 
- Tianran MOU
- Ruying Ji
+ 	•	Tianran MOU
+ 	•	Ruying Ji
 
 
  Fonctionnalités：
