@@ -46,7 +46,7 @@ class _ImageTransformPageState extends State<ImageTransformPage> {
     }
   }
 
-  // 新增：接收动画值的回调
+  // 
   void updateAnimationValues(
       double newRotateX, double newRotateZ, double newScale) {
     setState(() {
@@ -77,7 +77,7 @@ class _ImageTransformPageState extends State<ImageTransformPage> {
                     scale: scale,
                     mirror: mirror,
                     isAnimating: isAnimating && widget.animated,
-                    // 传递动画值更新回调
+                    
                     onAnimationValueChanged:
                         isAnimating ? updateAnimationValues : null,
                   ),
@@ -88,10 +88,10 @@ class _ImageTransformPageState extends State<ImageTransformPage> {
                     scale: scale,
                     mirror: mirror,
                     onRotateXChanged:
-                        isAnimating ? null : onRotateXChanged, // 动画中禁用滑块交互
+                        isAnimating ? null : onRotateXChanged, // Disable slider interaction during the animation.
                     onRotateZChanged: isAnimating ? null : onRotateZChanged,
                     onScaleChanged: isAnimating ? null : onScaleChanged,
-                    onMirrorChanged: onMirrorChanged, // 镜像控制不受动画影响
+                    onMirrorChanged: onMirrorChanged, // Mirror control is not affected by the animation.
                   ),
                 ],
               ),

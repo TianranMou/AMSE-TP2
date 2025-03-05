@@ -24,7 +24,7 @@ class ImageTransformControls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isAnimating = onRotateXChanged == null; // 通过回调是否为null判断动画状态
+    final bool isAnimating = onRotateXChanged == null; // Determine the animation state by checking whether the callback is null.
 
     return Card(
       child: Padding(
@@ -38,7 +38,7 @@ class ImageTransformControls extends StatelessWidget {
               min: -1.0,
               max: 1.0,
               onChanged: onRotateXChanged,
-              activeColor: isAnimating ? Colors.grey : null, // 动画时变灰
+              activeColor: isAnimating ? Colors.grey : null, // Turn gray during the animation.
             ),
             Text('Rotate Z: ${rotateZ.toStringAsFixed(2)}'),
             Slider(

@@ -29,10 +29,10 @@ class GridViewExamplePage extends StatelessWidget {
           child: AspectRatio(
             aspectRatio: 1,
             child: GridView.count(
-              crossAxisCount: 3, // 3x3网格
-              crossAxisSpacing: 2.0, // 水平间距
-              mainAxisSpacing: 2.0, // 垂直间距
-              physics: const NeverScrollableScrollPhysics(), // 禁用滚动
+              crossAxisCount: 3, // 3x3grid
+              crossAxisSpacing: 2.0, 
+              mainAxisSpacing: 2.0, 
+              physics: const NeverScrollableScrollPhysics(), 
               children: List.generate(9, (index) {
                 return Container(
                   color: tileColors[index],

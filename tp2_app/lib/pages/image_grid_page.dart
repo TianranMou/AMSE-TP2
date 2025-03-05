@@ -36,7 +36,7 @@ class ImageGridPage extends StatelessWidget {
                 ),
                 itemCount: size * size,
                 itemBuilder: (context, index) {
-                  // 计算当前瓦片在网格中的行列位置
+                   // Calculate the row and column position of the current tile in the grid.
                   final row = index ~/ size;
                   final col = index % size;
 

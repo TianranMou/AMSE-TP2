@@ -47,19 +47,19 @@ class _AnimatedImageState extends State<AnimatedImage> {
   void startAnimation() {
     _timer = Timer.periodic(const Duration(milliseconds: 50), (timer) {
       setState(() {
-        // RotateX: 完整360度旋转（在滑块上显示为-1到1的范围）
+        // RotateX: Complete 360-degree rotation.
         _animatedRotateX += 0.05;
         if (_animatedRotateX > 2 * math.pi) {
           _animatedRotateX = 0.0;
         }
         
-        // RotateZ: 完整360度旋转，速度稍快
+        // RotateZ: Complete 360-degree rotation.
         _animatedRotateZ += 0.07;
         if (_animatedRotateZ > 2 * math.pi) {
           _animatedRotateZ = 0.0;
         }
         
-        // Scale: 在0.5和2.0之间来回
+        // Scale
         if (_scaleIncreasing) {
           _animatedScale += 0.04;
           if (_animatedScale >= 2.0) {
@@ -74,7 +74,7 @@ class _AnimatedImageState extends State<AnimatedImage> {
           }
         }
         
-        // 将当前动画值报告回父组件（将弧度值转换为-1到1的范围用于滑块显示）
+       // Report the current animation value back to the parent component (convert the radian value to a range of -1 to 1 for slider display).
         if (widget.onAnimationValueChanged != null) {
           widget.onAnimationValueChanged!(
             ((_animatedRotateX / math.pi) - 1.0).clamp(-1.0, 1.0), 
@@ -99,8 +99,8 @@ class _AnimatedImageState extends State<AnimatedImage> {
 
   @override
   Widget build(BuildContext context) {
-    // 使用动画值或用户手动设置的值
-    // 将滑块的-1到1范围转换为实际的弧度值
+    // Use either the animation value or the user-set value
+    // Convert the slider range of -1 to 1 into the actual radian value
     final double actualRotateX = widget.isAnimating 
         ? _animatedRotateX 
         : (widget.rotateX + 1.0) * math.pi;
